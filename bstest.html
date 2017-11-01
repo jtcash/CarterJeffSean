@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
 
 </head>
 
@@ -11,100 +14,20 @@
 
 
 
-<div class="list-group-item" id="grandparent">
-    <div id="expander" data-target="#grandparentContent" data-toggle="collapse" data-group-id="grandparent" data-role="expander">
-        <ul class="list-inline">
-            <li id="grandparentIcon">&gt;</li>
-            <li>Grandparent</li>
-        </ul>
-    </div>
 
-    <div class="collapse" id="grandparentContent" aria-expanded="true">
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Created On</th>
-            <th>Last Modified</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          <tr data-toggle="collapse">
-            <td data-target="#collapseContent1" data-toggle="collapse" data-group-id="grandparent" data-role="expander"><div>&gt;</div></td>
-            <td>Parent 1</td>
-            <td>04/02/2017</td>
-            <td>04/04/2017</td>
-          </tr>
-
-          <tr class="collapse" id="collapseContent1" aria-expanded="true">
-            <td></td>
-            <td>Child A</td>
-            <td>04/01/2017</td>
-            <td>04/05/2017</td>
-          </tr>
-          
-          <tr class="collapse">
-            <td></td>
-            <td>Child B</td>
-            <td>04/03/2017</td>
-            <td>04/04/2017</td>
-          </tr>          
-          
-          <tr data-toggle="collapse">
-            <td><div>&gt;</div></td>
-            <td>Parent 2</td>
-            <td>04/03/2017</td>
-            <td>04/10/2017</td>
-          </tr>
-
-          <tr class="collapse">
-            <td></td>
-            <td>Child X</td>
-            <td>04/10/2017</td>
-            <td>04/11/2017</td>
-          </tr>  
-    
-        </tbody>
-      </table>
-    </div>
-    
-    
-  
+<div class="container">
+  <h2>Simple Collapsible</h2>
+  <p>Click on the button to toggle between showing and hiding content.</p>
+  <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo">Simple collapsible</button>
+  <div id="demo" class="collapse">
+  	<iframe src="index.html"></iframe>
+    <br/>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  </div>
 </div>
-<br/>
-<div>
-TEST
-</div>
-
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript">
-$('.collapse').on('show.bs.collapse', function () {
-  var groupId = $('#expander').attr('data-group-id');
-  if (groupId) {
-    $('#grandparentIcon').html('v');
-  }
-});
-
-$('.collapse').on('hide.bs.collapse', function () {
-  var groupId = $('#expander').attr('data-group-id');
-  if (groupId) {
-    $('#' + groupId + 'Icon').html('>');
-  }
-});
-
-</script>
 </body>
 
 
