@@ -1,7 +1,6 @@
 var patients = [
-		 {patient_name : 'Jeffrey', 'patient_meds' : '1x beer,1x other beer', 'color_status': 'yellow'}
-		,{patient_name : 'Kevin Spacey', 'patient_meds' : '15x underage males', 'color_status': 'red'}
-		,{patient_name : 'Kevin Spacey 2', 'patient_meds' : '25x underage males', 'color_status': 'green'}
+		 {patient_name : 'Grandma', 'patient_meds' : '1x Aricept, 1x Exelon, 1x Razadyne', 'color_status': 'red'}
+		,{patient_name : 'G-pa', 'patient_meds' : '1x Aricept, 1x Exelon', 'color_status': 'yellow'}
 	];
 
 
