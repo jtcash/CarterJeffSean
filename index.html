@@ -1,106 +1,134 @@
-<!doctype html>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>HCI Project Portfolio</title>	
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/bootstrap-theme.min.css" rel="stylesheet">
-	<link href="css/introHCI.css" rel="stylesheet">
-	<!-- this is a comment in HTML -->
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Caretaker Home</title>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->        
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<!-- handlebars include here -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 </head>
 
-<body>
-	<div class="container">
-		<!-- h1 through h6 are headers. The higher the number, the smaller the header -->
-		<!-- p means paragraph -->
-		<div class="jumbotron">
-			<h1 id="myName">Lab 4</h1>
-			<p>human-computer interaction &middot; social computing &middot; crowdsourcing</p>
-			<button id="changeName" class="btn btn-primary btn-lg">Change my name</button>
-		</div>
 
 
-		<h4>Projects -- Manually-written HTML</h4>
-		<div class="project" id="project1">
-			<a href="" class="thumbnail">
-				<img src="images/lorempixel.people.1.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Waiting in Line</p>
-			</a>
-		</div>
-		<div class="project" id="project2">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.city.1.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Needfinding</p>
-			</a>
-		</div>
-		<div class="project" id="project3">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.technics.1.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Prototyping</p>
-			</a>
-		</div>
-		<div class="project" id="project4">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.abstract.1.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Heuristic Evaluation</p>
-			</a>
-		</div>
-		<div class="project" id="project5">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.abstract.8.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Visualization</p>
-			</a>
-		</div>
-		<div class="project" id="project6">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.people.2.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Social design</p>
-			</a>
-		</div>
-		<div class="project" id="project7">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.technics.2.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Gestural interaction</p>
-			</a>
-		</div>
-		<div class="project" id="project8">
-			<a href="#" class="thumbnail">
-				<img src="images/lorempixel.city.2.jpeg" alt="Lorem Pixel image" class="img">
-				<p>Design tools</p>
-			</a>
-		</div>
+<script id="patient_template" type="text/x-handlebars-template">
 
-    <h4>Projects -- Dynamically-generated from Handlebars templates</h4>
-
-<!-- remember to put Handlebars templates within script tags so that the
-     webpage doesn't attempt to load them as HTML -->
-<script id="entry-template" type="text/x-handlebars-template">
-		<div class="project" id="project{{index}}">
-			<a href="#" class="thumbnail">
-				<img src="{{profilePic}}" alt="Lorem Pixel image" class="img">
-				<p>{{title}}</p>
-			</a>
+	<div class="panel">
+		<div class="row">
+			<button class="btn btn-default col-xs-12" type="button" data-toggle="collapse" data-target="#collapse_{{patient_id}}" aria-expanded="false" aria-controls="collapseExample">
+		
+			<div class="col-xs-1">
+					<img src="img/dot_big_{{color_status}}.png" style="max-width: 100%; min-width: 20px; height: auto;  display: block;"/>
+				</div>
+				<div class="col-xs-11>">
+					<h3>{{patient_name}}</h3>
+				</div>
+			  
+			</button>
 		</div>
-</script>
-
-    <div id="templatedProjects">
-      <!-- we will inject templated project HTML code into here -->
-    </div>
-
+		
+		<!-- This bit get collapsed and is hidden by default -->
+		<div class="collapse" id="collapse_{{patient_id}}">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="well col-xs-12" id="patient_meds_{{patient_id}}">
+			    		{{patient_meds}}
+			    	</div>
+		  		</div>
+		  		<div class="row">
+		  			<button class="btn btn-default col-xs-2">Call</button>
+		  			<button class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modal_reminder_{{patient_id}}">Remind</button>
+		  			<div class="col-xs-1"/>
+		  			<button class="btn btn-default col-xs-6" onclick="add_meds_handler({{patient_id}});" data-toggle="modal" data-target="#modal_add_meds_{{patient_id}}">
+		  				Edit Medications
+		  			</button>
+		  		</div>
+			</div>
+		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/handlebars-v4.0.11.js"></script>
-	<script src="js/lab4.js"></script>
+	<div class="modal fade" id="modal_add_meds_{{patient_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Modal for {{patient_name}}</h4>
+	      </div>
+	      <div class="modal-body">
+	        <label for="usr">Medications:</label>
+ 			<input type="text" class="form-control" id="meds_input_{{patient_id}}">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" onclick="save_meds({{patient_id}});">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="modal fade" id="modal_reminder_{{patient_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Reminder sent to {{patient_name}}</h4>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="change_status_delay({{patient_id}}, 'green', 2000);">Okay</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+
+</script>
+
+
+
+<body>
+<div class="container">
+	<div class="col-xs-12 text-center">
+		<h2>Dashboard</h2>
+	</div>
+
+</div>
+
+
+
+
+<div class="container">
+	<div id="templated_patients">
+
+	</div>
+</div>
+
+
+
+<br/>
+<br/>
+
+
+<!-- Button trigger modal -->
+
+
+<br/>
+
+<script src="temp.js"></script>
+
+		<a href="ct_settings.html">Settings</a> 
+		<br>
+		<a href="ct_login.html">Log Out</a>
 </body>
+
 </html>

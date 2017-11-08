@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Settings</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script>
+		function add_patient() {
+			// Pull patients from localStorage
+			var patients_string = localStorage["patients"];
+			var patients_array = [];
+			if(patients_string != null){
+				patients_array = JSON.parse(patients_string);
+				if(patients_array == null) patients_array = [];
+			}
+
+			var name = document.getElementById('name').value;
+			var meds = document.getElementById('meds').value;
+
+			var exists = false;
+			for(var i=0; i<patients_array.length; ++i){
+				if(name == patients_array[i]['patient_name']){
+					patients_array[i]['meds'] = meds;
+					exists = true;
+				}
+			}
+			if(!exists){
+				var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
+				patients_array.push(new_patient);
+			}
+
+			
+
+
+			localStorage.setItem("patients", JSON.stringify(patients_array)); 
+		}
+
+	</script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<h2>Settings</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<h4>Add a care receiever</h4>
+				<input class="form-control input-sm" type="text" placeholder="Name" id="name">
+				<input class="form-control input-sm" type="text" placeholder="Medications" id="meds">
+				<button class="btn btn-default col-xs-2" onclick="add_patient(); location.href='index.html'">Add</button>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-xs-12">
+				<br>
+				<a href="index.html">Dashboard</a> 
+				<br>
+				<a href="ct_login.html">Log Out</a>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<button class="btn btn-danger btn-xs" col-xs-2" onclick="localStorage['patients']=null; location.href='index.html'">Reset Patient List</button>
+		</div>
+	</div>
+</body>
+</html>
