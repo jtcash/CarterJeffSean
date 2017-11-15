@@ -7,144 +7,8 @@ var patients = patients_default.slice();
 
 
 
-function refresh_patients(){
-	create_patients(patients);
-}
 
 
-function change_status(id, color){
-	patients[id]['color_status'] = color;
-	document.getElementById("status_image_" + id).src = "img/dot_big_" + color + ".png";
-
-	// create_patients(patients);
-}
-
-function change_status_delay(id, color, delay_ms){
-	setTimeout(function(){ change_status(id, color); }, delay_ms);
-}
-
-
-
-
-
-function create_patients(patient_array){
-// $('#part_number-modal').on('hidden.bs.modal', function (e) {
-//   // do something...
-// })
-
-
-	// format_meds(patient_array);
-
-	console.log('creating patients');
-
-	
-
-	var source = $("#patient_template").html();
-	var template = Handlebars.compile(source);
-
-	var parent_div = $("#templated_patients");
-
-	parent_div.empty();
-
-	for(var i=0; i<patient_array.length; ++i){
-		var cur_data = patient_array[i];
-		var cur_html = template(cur_data);
-
-		parent_div.append(cur_html);
-
-		
-		// Set up handler for when reminder modal is closed
-		
-	}
-
-
-	console.log('done creating patients');
-}
-
-function add_meds_handler(patient_id){
-	console.log('button pressed from patient_id=' + patient_id);
-
-	$("#meds_input_"+patient_id).val(patients[patient_id]['patient_meds']);
-}
-
-function add_patient_to_global(patient){
-	var name = patient['patient_name'];
-	var meds = patient['patient_meds'];
-
-	var exists = false;
-	console.log("updating patients with: " + name +", " + meds);
-	for(var i=0; i<patients.length; ++i){
-		console.log("name == patients[i]['patient_name']:" + name + "==" + patients[i]['patient_name']);
-		if(name == patients[i]['patient_name']){
-			console.log("WTF")
-			patients[i]['patient_meds'] = meds;
-			exists = true;
-		}
-	}
-	if(!exists){
-		//var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
-		patients.push(patient);
-	}
-}
-
-
-function add_patient(name, meds) {
-	// Pull patients from localStorage
-	var patients_string = localStorage["patients"];
-	var patients_array = [];
-	if(patients_string != null){
-		patients_array = JSON.parse(patients_string);
-		if(patients_array == null) patients_array = [];
-	}
-
-	// var name = document.getElementById('name').value;
-	// var meds = document.getElementById('meds').value;
-
-	var exists = false;
-	for(var i=0; i<patients_array.length; ++i){
-		if(name == patients_array[i]['patient_name']){
-			patients_array[i]['patient_meds'] = meds;
-			exists = true;
-		}
-	}
-	if(!exists){
-		var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
-		patients_array.push(new_patient);
-	}
-
-	localStorage.setItem("patients", JSON.stringify(patients_array)); 
-}
-
-
-function save_meds(patient_id){
-	
-	var new_meds = $("#meds_input_"+patient_id).val();
-	// console.log("saving meds for id=" + patient_id+"\nneed to also write to localstorage");
-	patients[patient_id]['patient_meds'] = new_meds;
-
-	// $("#patient_meds_" + patient_id).val(new_meds);
-	document.getElementById("patient_meds_"+patient_id).innerText = new_meds;
-	console.log("TODO: update localstorage");
-
-	add_patient(patients[patient_id]["patient_name"], new_meds);
-
-
-}
-
-function modify_patients_from_localstorage(){
-	var patients_string = localStorage["patients"];
-	console.log("WTF: " + patients_string);
-	var patients_array = [];
-	if( patients_string != null && patients_string != undefined ){
-		patients_array = JSON.parse(patients_string);
-		if(patients_array == null) patients_array = [];
-	}
-
-	console.log("patients_array.length=" + patients_array.length)
-	for(var i=0; i<patients_array.length; ++i){
-		add_patient_to_global(patients_array[i]);
-	}
-}
 
 
 
@@ -334,14 +198,16 @@ function remove_user(email){
 }
 
 
-
-
 function get_ls_patients(){
 	if(!is_logged_in()) return [];
 
 	var user = get_user(get_user_email());
 	var patients = user.patients;
 	if(patients == null) return [];
+
+	for(var i=0; i<patients.length; ++i){
+		patients[i].patient_id = i;
+	}
 
 	return patients;
 }
@@ -362,6 +228,12 @@ function set_ls_patients(patients){
 
 
 
+/////////////////
+
+
+function call_patient(patient_name){
+	alert("calling " + patient_name);
+}
 
 
 
@@ -374,7 +246,139 @@ function set_ls_patients(patients){
 
 
 
+// Change the status of a patient (change indicator color)
+function change_status(id, color){
+	// Ensure a valid color is chosen
+	switch(color){
+		case 'red':
+		case 'yellow':
+		case 'green':
+			break;
+		default:
+			console.log("invalid status color chosen; defaulting to yellow");
+			color = 'yellow';
+	}
+	patients[id]['color_status'] = color;
+	document.getElementById("status_image_" + id).src = "img/dot_big_" + color + ".png";
 
+
+}
+// Change the status of a patient after some delay
+function change_status_delay(id, color, delay_ms){
+	setTimeout(function(){ change_status(id, color); }, delay_ms);
+}
+
+
+
+
+// Create the patient fields on index.html from an array of patients
+function create_patients(patient_array){
+	// console.log('creating patients');
+	var source = $("#patient_template").html();
+	var template = Handlebars.compile(source);
+
+	var parent_div = $("#templated_patients");
+
+	// Clear the div in case there's junk in it for some reason
+	parent_div.empty();
+	for(var i=0; i<patient_array.length; ++i) parent_div.append(template(patient_array[i]));
+
+	// for(var i=0; i<patient_array.length; ++i){
+	// 	 var cur_data = patient_array[i]; 
+	// 	 var cur_html = template(cur_data); 
+	// 	 parent_div.append(cur_html);			
+	// }
+	// console.log('done creating patients');
+}
+
+// Handler for when add medications is pressed
+function add_meds_handler(patient_id){
+	console.log('button pressed from patient_id=' + patient_id);
+	$("#meds_input_"+patient_id).val(patients[patient_id]['patient_meds']);
+}
+
+
+
+
+function add_patient(name, meds) {
+	// Pull patients from localStorage
+	var patients_string = localStorage["patients"];
+	var patients_array = [];
+	if(patients_string != null){
+		patients_array = JSON.parse(patients_string);
+		if(patients_array == null) patients_array = [];
+	}
+
+	// var name = document.getElementById('name').value;
+	// var meds = document.getElementById('meds').value;
+
+	var exists = false;
+	for(var i=0; i<patients_array.length; ++i){
+		if(name == patients_array[i]['patient_name']){
+			patients_array[i]['patient_meds'] = meds;
+			exists = true;
+		}
+	}
+	if(!exists){
+		var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
+		patients_array.push(new_patient);
+	}
+
+	localStorage.setItem("patients", JSON.stringify(patients_array)); 
+}
+
+
+function save_meds(patient_id){
+	
+	var new_meds = $("#meds_input_"+patient_id).val();
+	// console.log("saving meds for id=" + patient_id+"\nneed to also write to localstorage");
+	patients[patient_id]['patient_meds'] = new_meds;
+
+	// $("#patient_meds_" + patient_id).val(new_meds);
+	document.getElementById("patient_meds_"+patient_id).innerText = new_meds;
+	console.log("TODO: update localstorage");
+
+	add_patient(patients[patient_id]["patient_name"], new_meds);
+
+
+}
+
+
+
+function add_patient_to_global(patient){
+	var name = patient['patient_name'];
+	var meds = patient['patient_meds'];
+
+	var exists = false;
+	console.log("updating patients with: " + name +", " + meds);
+	for(var i=0; i<patients.length; ++i){
+		// console.log("name == patients[i]['patient_name']:" + name + "==" + patients[i]['patient_name']);
+		if(name == patients[i]['patient_name']){
+			console.log("WTF")
+			patients[i]['patient_meds'] = meds;
+			exists = true;
+		}
+	}
+	if(!exists){
+		//var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
+		patients.push(patient);
+	}
+}
+function modify_patients_from_localstorage(){
+	console.log("WTF DID THIS DO");
+	var patients_string = localStorage["patients"];
+	console.log("WTF: " + patients_string);
+	var patients_array = [];
+	if( patients_string != null && patients_string != undefined ){
+		patients_array = JSON.parse(patients_string);
+		if(patients_array == null) patients_array = [];
+	}
+
+	console.log("patients_array.length=" + patients_array.length)
+	for(var i=0; i<patients_array.length; ++i){
+		add_patient_to_global(patients_array[i]);
+	}
+}
 
 
 

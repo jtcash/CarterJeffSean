@@ -50,7 +50,7 @@
 			    	</div>
 		  		</div>
 		  		<div class="row">
-		  			<button class="btn btn-default col-xs-2">Call</button>
+		  			<button class="btn btn-default col-xs-2" onclick="call_patient({{patient_id}});"">Call</button>
 		  			<button class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modal_reminder_{{patient_id}}">Remind</button>
 		  			<div class="col-xs-1"/>
 		  			<button class="btn btn-default col-xs-6" onclick="add_meds_handler({{patient_id}});" data-toggle="modal" data-target="#modal_add_meds_{{patient_id}}">
@@ -149,7 +149,8 @@
 		// generate patient ids
 		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
 
-		create_patients( patients );
+		// create_patients( patients );
+		create_patients( get_ls_patients() );
 
 	});
 </script>
