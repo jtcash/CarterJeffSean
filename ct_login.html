@@ -24,13 +24,14 @@
 			<h2>Pill Check</h2>
 		</div>
 		<div class="row">
-			<div class="col-xs-12">
+			<div class="form-group">
+
 				<input id="login_email" class="form-control input-sm" type="text" placeholder="email">
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12">
-				<input id="login_password" class="form-control input-sm" type="text" placeholder="password">
+			<div class="form-group">
+				<input id="login_password" class="form-control input-sm" type="password" placeholder="password">
 			</div>
 		</div>
 		<div class="row" style="margin-top : 10px;">
@@ -111,6 +112,8 @@
 			if(success){
 				$('#modal_register').modal('hide');
 			}
+
+			// attempt_login(email, password);
 
 			return success;
 		}

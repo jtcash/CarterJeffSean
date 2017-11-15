@@ -225,14 +225,19 @@ function set_ls_patients(patients){
 	return false;
 }
 
+function reset_ls_patients(){
+	set_ls_patients(get_user_email() == 'default' ? patients_default : []);
 
+}
 
 
 /////////////////
 
 
-function call_patient(patient_name){
-	alert("calling " + patient_name);
+function call_patient(patient_id){
+	
+
+	alert("calling " +  get_ls_patients()[patient_id].patient_name + " (not yet implemented)");
 }
 
 
@@ -258,6 +263,8 @@ function change_status(id, color){
 			console.log("invalid status color chosen; defaulting to yellow");
 			color = 'yellow';
 	}
+
+	var patients = get_ls_patients();
 	patients[id]['color_status'] = color;
 	document.getElementById("status_image_" + id).src = "img/dot_big_" + color + ".png";
 
@@ -302,28 +309,8 @@ function add_meds_handler(patient_id){
 
 
 function add_patient(name, meds) {
-	// Pull patients from localStorage
-	// var patients_string = localStorage["patients"];
-	// var patients_array = [];
-	// if(patients_string != null){
-	// 	patients_array = JSON.parse(patients_string);
-	// 	if(patients_array == null) patients_array = [];
-	// }
-
-	// // var name = document.getElementById('name').value;
-	// // var meds = document.getElementById('meds').value;
-
-	// var exists = false;
-	// for(var i=0; i<patients_array.length; ++i){
-	// 	if(name == patients_array[i]['patient_name']){
-	// 		patients_array[i]['patient_meds'] = meds;
-	// 		exists = true;
-	// 	}
-	// }
-	// if(!exists){
-	// 	var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
-	// 	patients_array.push(new_patient);
-	// }
+	// var name = document.getElementById('name').value;
+	// var meds = document.getElementById('meds').value;
 	var patients_array = get_ls_patients();
 	for(var i=0; i<patients_array.length; ++i){
 		if(name == patients_array[i].patient_name){
