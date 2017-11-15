@@ -28,7 +28,9 @@ function refresh_patients(){
 
 function change_status(id, color){
 	patients[id]['color_status'] = color;
-	create_patients(patients);
+	document.getElementById("status_image_" + id).src = "img/dot_big_" + color + ".png";
+
+	// create_patients(patients);
 }
 
 function change_status_delay(id, color, delay_ms){
