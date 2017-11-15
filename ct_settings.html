@@ -93,5 +93,17 @@
 			
 	</div>
 	<script src="temp.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+
+		// Redirect to login page if not logged in
+		if(!is_logged_in()){
+			window.location="ct_login.html";
+			return;
+		}
+		
+
+	});
+</script>
 </body>
 </html>
