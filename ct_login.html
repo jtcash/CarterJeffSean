@@ -111,9 +111,11 @@
 			// Only close modal if a new user was successfully made
 			if(success){
 				$('#modal_register').modal('toggle');
+				$('#login_email').val(email);
+				$('#login_password').val(password);
 			}
 
-			alert(success);
+			
 
 			// attempt_login(email, password);
 

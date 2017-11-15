@@ -147,6 +147,8 @@
 		modify_patients_from_localstorage();
 
 		// generate patient ids
+
+		var patients = get_ls_patients();
 		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
 
 		// create_patients( patients );

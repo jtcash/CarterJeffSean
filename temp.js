@@ -116,11 +116,16 @@ function add_user(email, password, patients){
 	var new_user = make_user(email, password, patients);
 
 	var user_array = get_user_array();
-	try{
-		user_array.push(new_user);
-	} catch(err) {
-		user_array = [ new_user ];
-	}
+
+	// if(user_array.isArray){
+		try{
+			user_array.push(new_user);
+		} catch(err) {
+			user_array = [ new_user ];
+		}
+	// } else {
+	// 	user_array = [ new_user ];
+	// }
 	set_user_array(user_array);
 
 	console.log("users:{" + localStorage['users'] + '}');
@@ -200,10 +205,14 @@ function remove_user(email){
 }
 
 
+
 function get_ls_patients(){
 	if(!is_logged_in()) return [];
 
 	var user = get_user(get_user_email());
+	if(user == null){
+		return [];
+	}
 	var patients = user.patients;
 	if(patients == null) return [];
 
