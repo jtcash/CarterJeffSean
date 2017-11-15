@@ -294,6 +294,7 @@ function create_patients(patient_array){
 // Handler for when add medications is pressed
 function add_meds_handler(patient_id){
 	console.log('button pressed from patient_id=' + patient_id);
+	var patients = get_ls_patients();
 	$("#meds_input_"+patient_id).val(patients[patient_id]['patient_meds']);
 }
 
@@ -302,29 +303,42 @@ function add_meds_handler(patient_id){
 
 function add_patient(name, meds) {
 	// Pull patients from localStorage
-	var patients_string = localStorage["patients"];
-	var patients_array = [];
-	if(patients_string != null){
-		patients_array = JSON.parse(patients_string);
-		if(patients_array == null) patients_array = [];
-	}
+	// var patients_string = localStorage["patients"];
+	// var patients_array = [];
+	// if(patients_string != null){
+	// 	patients_array = JSON.parse(patients_string);
+	// 	if(patients_array == null) patients_array = [];
+	// }
 
-	// var name = document.getElementById('name').value;
-	// var meds = document.getElementById('meds').value;
+	// // var name = document.getElementById('name').value;
+	// // var meds = document.getElementById('meds').value;
 
-	var exists = false;
+	// var exists = false;
+	// for(var i=0; i<patients_array.length; ++i){
+	// 	if(name == patients_array[i]['patient_name']){
+	// 		patients_array[i]['patient_meds'] = meds;
+	// 		exists = true;
+	// 	}
+	// }
+	// if(!exists){
+	// 	var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
+	// 	patients_array.push(new_patient);
+	// }
+	var patients_array = get_ls_patients();
 	for(var i=0; i<patients_array.length; ++i){
-		if(name == patients_array[i]['patient_name']){
-			patients_array[i]['patient_meds'] = meds;
-			exists = true;
+		if(name == patients_array[i].patient_name){
+			alert("duplicate patient");
+			return false;
 		}
 	}
-	if(!exists){
-		var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
-		patients_array.push(new_patient);
-	}
+	var new_patient = {patient_name: name, patient_meds: meds, color_status: 'green'};
+	patients_array.push(new_patient);
 
-	localStorage.setItem("patients", JSON.stringify(patients_array)); 
+
+	set_ls_patients(patients_array);
+	return true;
+
+	// localStorage.setItem("patients", JSON.stringify(patients_array)); 
 }
 
 
@@ -332,13 +346,23 @@ function save_meds(patient_id){
 	
 	var new_meds = $("#meds_input_"+patient_id).val();
 	// console.log("saving meds for id=" + patient_id+"\nneed to also write to localstorage");
-	patients[patient_id]['patient_meds'] = new_meds;
 
-	// $("#patient_meds_" + patient_id).val(new_meds);
-	document.getElementById("patient_meds_"+patient_id).innerText = new_meds;
-	console.log("TODO: update localstorage");
+	var patient_array = get_ls_patients();
 
-	add_patient(patients[patient_id]["patient_name"], new_meds);
+
+	patient_array[patient_id].patient_meds = new_meds;
+	document.getElementById('patient_meds_' + patient_id).innerText = new_meds;
+	// $("#patient_meds_"+patient_id).val(new_meds);
+
+	set_ls_patients(patient_array);
+
+	// patients[patient_id]['patient_meds'] = new_meds;
+
+	// // $("#patient_meds_" + patient_id).val(new_meds);
+	// document.getElementById("patient_meds_"+patient_id).innerText = new_meds;
+	// console.log("TODO: update localstorage");
+
+	// add_patient(patients[patient_id]["patient_name"], new_meds);
 
 
 }
