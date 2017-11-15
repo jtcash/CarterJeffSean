@@ -153,6 +153,14 @@ function modify_patients_from_localstorage(){
 
 
 
+
+////////////////////////
+
+
+
+
+
+
 // Getters and setters for user_email
 function get_user_email(){ return localStorage['logged_in_as']; }
 function set_user_email(new_email){	localStorage['logged_in_as'] = (new_email == null ? "" : new_email); }
@@ -297,6 +305,76 @@ function log_out(){
 	clear_user_email(); 
 	window.location = "ct_login.html";
 }
+
+
+
+
+
+// Initialize default user stuff if first time running
+function initialize_shit(){
+	if(!user_exists('default')){
+		add_user('default', '', patients_default);
+	}
+}
+
+// Remove a user from ls by email
+function remove_user(email){
+	var user_array = get_user_array();
+	for(var i=0; i<user_array.length; ++i){
+		if(user_array[i].email == email){
+			user_array.splice(i,1);
+			set_user_array(user_array);
+			if(is_logged_in() && get_user_email() == email){
+				log_out();
+			}
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+function get_ls_patients(){
+	if(!is_logged_in()) return [];
+
+	var user = get_user(get_user_email());
+	var patients = user.patients;
+	if(patients == null) return [];
+
+	return patients;
+}
+function set_ls_patients(patients){
+	if(!is_logged_in()) return false;
+	var email = get_user_email();
+	var user_array = get_user_array();
+	for(var i=0; i<user_array.length; ++i){
+		if(user_array[i].email == email){
+			user_array[i].patients = patients;
+			set_user_array(user_array);
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

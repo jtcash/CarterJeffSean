@@ -134,9 +134,14 @@
 <script src="temp.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
+
+		// Redirect to login page if not logged in
 		if(!is_logged_in()){
 			window.location="ct_login.html";
+			return;
 		}
+		initialize_shit();
+
 		//Relies on temp.js being available
 
 		modify_patients_from_localstorage();
