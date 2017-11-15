@@ -5,21 +5,6 @@ var patients_default = [
 
 var patients = patients_default.slice();
 
-// function format_meds(patient_array){
-// 	for(var i=0; i<patient_array.length; ++i){
-// 		var cur = patient_array[i];
-// 		console.log('formatting for ' + cur['patient_name'])
-		
-// 		var med_array = cur['patient_meds'].split(',');
-// 		if(med_array.length == 1) continue;
-// 		var new_meds = "";
-// 		for(var j=0; j<med_array.length; ++j){
-// 			new_meds += '<p>' + med_array[j] + '</p>\n';
-// 		} 
-// 		cur['patient_array'] = new_meds;
-// 	}
-// }		
-
 
 
 function refresh_patients(){
@@ -271,23 +256,25 @@ function add_user(email, password, patients){
 }
 
 
+function log_in_as(email){
+	set_user_email(email);
+	window.location = "index.html";
+	return true;
+}
+
 function attempt_login(){
 	var email = document.getElementById('login_email').value;
 	var password = document.getElementById('login_password').value;
 
-	console.log('attempting login with email:{' + email + '}, password:{' + password + '}');
+	console.log('attempting login with email:{' + email + '}, password:{' + password + '} lol so secure');
 
 
 	// Handle default login case
 	if((email.length == 0 || email == null) && (password.length == 0 || password==null)){
-		set_user_email("default");
-		window.location = "index.html";
-		return true;
+		return log_in_as("default");
 	}	
 
 	// Handle actual login cases
-
-
 	if(!user_exists(email)){
 		alert('email is invalid');
 		return false;
@@ -302,10 +289,8 @@ function attempt_login(){
 	}
 
 
-	set_user_email(email);
-	window.location = "index.html";
 
-	return true;
+	return log_in_as(email);
 }
 
 function log_out(){
