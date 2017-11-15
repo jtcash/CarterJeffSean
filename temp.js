@@ -116,9 +116,11 @@ function add_user(email, password, patients){
 	var new_user = make_user(email, password, patients);
 
 	var user_array = get_user_array();
-
-	user_array.push(new_user);
-
+	try{
+		user_array.push(new_user);
+	} catch(err) {
+		user_array = [ new_user ];
+	}
 	set_user_array(user_array);
 
 	console.log("users:{" + localStorage['users'] + '}');
