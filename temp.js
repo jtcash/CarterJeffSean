@@ -163,3 +163,155 @@ function modify_patients_from_localstorage(){
 
 
 
+
+
+
+
+
+// Getters and setters for user_email
+function get_user_email(){ return localStorage['logged_in_as']; }
+function set_user_email(new_email){	localStorage['logged_in_as'] = (new_email == null ? "" : new_email); }
+function clear_user_email(){ set_user_email(""); }
+// Return boolean value of whether or not the user is already logged in
+function is_logged_in(){
+	var t = get_user_email();
+	return !(t == null || t == "");
+}
+
+
+
+function make_user(email, password, patients){
+	if(typeof patients === 'undefined') patients = [];
+	return {email:email, password:password, patients:patients}
+}
+
+function reset_user_array(){
+	console.log("resetting user array");
+	localStorage['users'] = '{}';
+}
+
+//Getter to retrieve the users array from localstorage as an array
+function get_user_array(){
+	var user_array_string = localStorage['users'];
+	if(user_array_string == null){
+		reset_user_array();
+		return [];
+	}
+	var user_array = [];
+	try{
+		user_array = JSON.parse(user_array_string);
+	} catch(err){
+		reset_user_array();
+		return [];
+	}
+	return user_array;
+}
+//Setter to put a user array into localstorage
+function set_user_array(user_array){
+	if(user_array == null){
+		console.log("trying to set users to null. Why do that???");
+		return false;
+	}
+
+	try{
+		var users_string = JSON.stringify(user_array);
+	}catch(err){
+		console.log("failed to stringify user_array");
+		return false;
+	}
+
+	localStorage['users'] = users_string;
+	return true; 
+}
+
+// Boolean to check if a user exists by email
+function user_exists(email){
+	var user_array = get_user_array();
+	if(user_array.length > 0){
+		for(var i=0; i<user_array.length; ++i){
+			if(user_array[i].email == email) return true;
+		}
+	}
+	return false;
+}
+
+function get_user(email){
+	var users = get_user_array();
+	for(var i=0; i<users.length; ++i){
+		if(users[i].email == email)
+			return users[i];
+	}
+	return null;
+}
+
+function password_is_valid(user, password){
+	return user.password == password;
+}
+
+
+// Add a user to localstorage, patients array optional
+function add_user(email, password, patients){
+	if(user_exists(email)){
+		alert("User already exists");
+		return false;
+	}
+
+	var new_user = make_user(email, password, patients);
+
+	var user_array = get_user_array();
+
+	user_array.push(new_user);
+
+	set_user_array(user_array);
+
+	console.log("users:{" + localStorage['users'] + '}');
+
+
+	return true;
+}
+
+
+function attempt_login(){
+	var email = document.getElementById('login_email').value;
+	var password = document.getElementById('login_password').value;
+
+	console.log('attempting login with email:{' + email + '}, password:{' + password + '}');
+
+
+	// Handle default login case
+	if((email.length == 0 || email == null) && (password.length == 0 || password==null)){
+		set_user_email("default");
+		window.location = "index.html";
+		return true;
+	}	
+
+	// Handle actual login cases
+
+
+	if(!user_exists(email)){
+		alert('email is invalid');
+		return false;
+	}
+
+	var user = get_user(email);
+
+	//ensure password is correct
+	if(!password_is_valid(user, password)){
+		alert('incorrect password');
+		return false;
+	}
+
+
+	set_user_email(email);
+	window.location = "index.html";
+
+	return true;
+}
+
+function log_out(){
+	clear_user_email(); 
+	window.location = "ct_login.html";
+}
+
+
+

@@ -15,23 +15,7 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-	<script type="text/javascript">
-		
-		function create_account(){
-			console.log('clicked create account');
-			
-			var email = document.getElementById("modal_input_email").value;
-			var password = document.getElementById("modal_input_password").value;
 
-			console.log("email:{" + email + "}, password{" + password +"}" );
-
-		}
-
-		$(document).ready(function(){
-			console.log("ready function started");
-
-		});
-	</script>
 </head>
 
 <body>
@@ -41,17 +25,17 @@
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<input class="form-control input-sm" type="text" placeholder="email">
+				<input id="login_email" class="form-control input-sm" type="text" placeholder="email">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-xs-12">
-				<input class="form-control input-sm" type="text" placeholder="password">
+				<input id="login_password" class="form-control input-sm" type="text" placeholder="password">
 			</div>
 		</div>
 		<div class="row" style="margin-top : 10px;">
 			<div class="col-xs-3 col-sm-1">
-				<button type="button" class="btn btn-primary" onclick="location.href='index.html'">Log in</button>
+				<button type="button" class="btn btn-primary" onclick="attempt_login()">Log in</button>
 			</div>
 			<div class="col-xs-1"></div>
 			<div class="col-xs-3 col-sm-1">
@@ -80,11 +64,65 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel');">Cancel</button>
-	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="create_account();">Create account</button>
+	        <button type="button" class="btn btn-primary" onclick="create_account();">Create account</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
+
+
+
+	<script src="temp.js"></script>
+	<script type="text/javascript">
+
+		
+
+		
+		function create_account(){
+			console.log('clicked create account');
+
+			var email = document.getElementById("modal_input_email").value;
+			var password = document.getElementById("modal_input_password").value;
+
+			var alert_message = "";
+
+			if(email.length < 1) alert_message ='Please enter email';
+			
+			if(password.length < 1){
+				if(alert_message.length < 1){
+					alert_message = "Please enter"
+				} else {
+					alert_message += ' and';
+				}
+				alert_message += ' password';
+			}
+			if(alert_message.length > 0){
+				alert(alert_message);
+				return false;
+			}
+
+
+			console.log("email:{" + email + "}, password{" + password +"}" );
+
+
+			var success = add_user(email, password);
+
+			// Only close modal if a new user was successfully made
+			if(success){
+				$('#modal_register').modal('hide');
+			}
+
+			return success;
+		}
+
+		$(document).ready(function(){
+			console.log("ready function started");
+
+			console.log(is_logged_in());
+
+		});
+	</script>
+
 </body>
 
 </html>
