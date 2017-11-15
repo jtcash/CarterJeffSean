@@ -18,6 +18,9 @@
 
 	<!-- handlebars include here -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+
+
 </head>
 
 
@@ -129,6 +132,19 @@
 		
 
 <script src="temp.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//Relies on temp.js being available
+
+		modify_patients_from_localstorage();
+
+		// generate patient ids
+		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
+
+		create_patients( patients );
+
+	});
+</script>
 
 </body>
 

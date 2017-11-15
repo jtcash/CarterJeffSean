@@ -1,8 +1,9 @@
-var patients = [
-		 {patient_name : 'Grandma', 'patient_meds' : '1x Aricept, 1x Exelon, 1x Razadyne', 'color_status': 'red'}
-		,{patient_name : 'G-pa', 'patient_meds' : '1x Aricept, 1x Exelon', 'color_status': 'yellow'}
+var patients_default = [
+		 {patient_name : 'Grandma', patient_meds : '1x Aricept, 1x Exelon, 1x Razadyne', color_status: 'red'}
+		,{patient_name : 'G-pa', patient_meds : '1x Aricept, 1x Exelon', color_status: 'yellow'}
 	];
 
+var patients = patients_default.slice();
 
 // function format_meds(patient_array){
 // 	for(var i=0; i<patient_array.length; ++i){
@@ -162,31 +163,3 @@ function modify_patients_from_localstorage(){
 
 
 
-
-
-$(document).ready(function(){
-
-	modify_patients_from_localstorage();
-	// color status can be green, yellow or red
-	
-
-	// generate patient ids
-	for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
-	
-
-
-
-	create_patients( patients );
-	
-
-
-	// if (localStorage.getItem("isAdded") == "true") {
-	// 		console.log("isAdded still here");
-	// 		$("#medList").append("1x NEW MED<br>");
-	// 	}
-
-	// $("#add").click(function(){
-	// 	localStorage.setItem("isAdded", "true");
-	// });
-
-});
