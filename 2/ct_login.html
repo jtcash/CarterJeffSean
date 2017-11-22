@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/pepe.png" type="image/x-icon">
+	<title>Login</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="col-xs-12 text-center">
+			<h2>Pill Check</h2>
+		</div>
+		<div class="row">
+			<div class="form-group">
+
+				<input id="login_email" class="form-control input-sm" type="text" placeholder="email">
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group">
+				<input id="login_password" class="form-control input-sm" type="password" placeholder="password">
+			</div>
+		</div>
+		<div class="row" style="margin-top : 10px;">
+			<div class="col-xs-3 col-sm-1">
+				<button type="button" class="btn btn-primary" onclick="attempt_login()">Log in</button>
+			</div>
+			<div class="col-xs-1"></div>
+			<div class="col-xs-3 col-sm-1">
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal_register">Register</button>
+			</div>
+		</div>
+	</div>
+	<!-- -->
+	<div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="modal_register_label">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Create an account</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+			  <label for="modal_input_email">email:</label>
+			  <input type="text" class="form-control" id="modal_input_email">
+			</div>
+			<div class="form-group">
+			  <label for="modal_input_password">password:</label>
+			  <input type="password" class="form-control" id="modal_input_password">
+			</div>
+	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel');">Cancel</button>
+	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="create_account();">Create account</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+
+	<script src="temp.js"></script>
+	<script type="text/javascript">
+
+
+
+		
+		function create_account(){
+			console.log('clicked create account');
+
+			var email = document.getElementById("modal_input_email").value;
+			var password = document.getElementById("modal_input_password").value;
+
+			var alert_message = "";
+
+			if(email.length < 1) alert_message ='Please enter email';
+			
+			if(password.length < 1){
+				if(alert_message.length < 1){
+					alert_message = "Please enter"
+				} else {
+					alert_message += ' and';
+				}
+				alert_message += ' password';
+			}
+			if(alert_message.length > 0){
+				alert(alert_message);
+				return false;
+			}
+
+
+			console.log("email:{" + email + "}, password{" + password +"}" );
+
+
+			var success = add_user(email, password);
+
+			// Only close modal if a new user was successfully made
+			if(success){
+				$('#modal_register').modal('toggle');
+				$('#login_email').val(email);
+				$('#login_password').val(password);
+			}
+
+			
+
+			// attempt_login(email, password);
+
+			return success;
+		}
+
+		$(document).ready(function(){
+			// console.log("ready function started");
+
+			// console.log(is_logged_in());
+			if(is_logged_in()){
+				window.location = 'index.html';
+			}
+			initialize_shit();
+			modify_patients_from_localstorage();
+
+		// generate patient ids
+		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
+
+		});
+	</script>
+
+</body>
+
+</html>
