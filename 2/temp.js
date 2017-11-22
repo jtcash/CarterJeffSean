@@ -329,7 +329,7 @@ function add_patient(name, meds) {
 			return false;
 		}
 	}
-	var new_patient = {patient_name: name, patient_meds: meds, color_status: 'green'};
+	var new_patient = {patient_name: name, patient_meds: meds, color_status: 'red'};
 	patients_array.push(new_patient);
 
 
