@@ -37,7 +37,7 @@
 	<div class="container">
 		<div class="=col-xs-12 text-center">
 			<h2>
-				Hi Grandma, please check in for today (11/7)
+				Hi Grandma, please check in for today (<span id="current_date">11/7</span>)
 			</h2>
 		</div>
 
@@ -90,6 +90,13 @@
 			<p><button class="btn btn-default btn-xs" onclick="location.href='index.html'">Switch to Caretaker Mode</button></p>
 		</div>	
 	</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var today = new Date();
+		document.getElementById("current_date").innerText = ( today.getMonth()+1) + "/" + today.getDate();
+	});
+</script>
 </body>
 
 </html>
