@@ -276,7 +276,9 @@ function change_status(id, color){
 	}
 
 	var patients = get_ls_patients();
+	
 	patients[id]['color_status'] = color;
+	
 	document.getElementById("status_image_" + id).src = "img/dot_big_" + color + ".png";
 
 
