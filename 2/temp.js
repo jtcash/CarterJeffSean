@@ -1,6 +1,6 @@
 var patients_default = [
-		 {patient_name : 'Grandma', patient_meds : '1x Aricept, 1x Exelon, 1x Razadyne', color_status: 'red'}
-		,{patient_name : 'G-pa', patient_meds : '1x Aricept, 1x Exelon', color_status: 'yellow'}
+		 {patient_name : 'Grandma', patient_meds : '1x Aricept, 1x Exelon, 1x Razadyne', patient_phone: '847-987-4238', color_status: 'red'}
+		,{patient_name : 'G-pa', patient_meds : '1x Aricept, 1x Exelon', patient_phone: '847-987-4238', color_status: 'yellow'}
 	];
 
 var patients = patients_default.slice();
@@ -247,8 +247,9 @@ function reset_ls_patients(){
 
 function call_patient(patient_id){
 	
-
-	alert("calling " +  get_ls_patients()[patient_id].patient_name + " (not yet implemented)");
+	var patient = get_ls_patients()[patient_id];
+	// alert("calling " +  patient.patient_name + " (not yet implemented): " + patient.patient_phone);
+	window.open("tel:+1" + patient.patient_phone);
 }
 
 
@@ -321,7 +322,7 @@ function add_meds_handler(patient_id){
 
 
 
-function add_patient(name, meds) {
+function add_patient(name, meds, phone) {
 	// var name = document.getElementById('name').value;
 	// var meds = document.getElementById('meds').value;
 	var patients_array = get_ls_patients();
@@ -331,7 +332,7 @@ function add_patient(name, meds) {
 			return false;
 		}
 	}
-	var new_patient = {patient_name: name, patient_meds: meds, color_status: 'red'};
+	var new_patient = {patient_name: name, patient_meds: meds, patient_phone: phone, color_status: 'red'};
 	patients_array.push(new_patient);
 
 
@@ -372,6 +373,7 @@ function save_meds(patient_id){
 function add_patient_to_global(patient){
 	var name = patient['patient_name'];
 	var meds = patient['patient_meds'];
+	var phone = patient['patient_phone'];
 
 	var exists = false;
 	console.log("updating patients with: " + name +", " + meds);
@@ -380,6 +382,7 @@ function add_patient_to_global(patient){
 		if(name == patients[i]['patient_name']){
 			console.log("WTF")
 			patients[i]['patient_meds'] = meds;
+			patients[i]['patient_phone'] = phone;
 			exists = true;
 		}
 	}
@@ -389,16 +392,16 @@ function add_patient_to_global(patient){
 	}
 }
 function modify_patients_from_localstorage(){
-	console.log("WTF DID THIS DO");
+	// console.log("WTF DID THIS DO");
 	var patients_string = localStorage["patients"];
-	console.log("WTF: " + patients_string);
+	// console.log("WTF: " + patients_string);
 	var patients_array = [];
 	if( patients_string != null && patients_string != undefined ){
 		patients_array = JSON.parse(patients_string);
 		if(patients_array == null) patients_array = [];
 	}
 
-	console.log("patients_array.length=" + patients_array.length)
+	// console.log("patients_array.length=" + patients_array.length)
 	for(var i=0; i<patients_array.length; ++i){
 		add_patient_to_global(patients_array[i]);
 	}

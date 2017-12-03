@@ -166,18 +166,23 @@
 	      </div>
 	      <div class="modal-body">
 	      	<div class="form-group">
-			  <label for="modal_input_email">Name:</label>
-			  <input type="text" class="form-control" id="modal_add_patient_name">
+			  <label for="modal_input_email">Name</label>
+			  <input type="text" class="form-control required name" id="modal_add_patient_name">
 			</div>
 			<div class="form-group">
 			  <label for="modal_input_password">Medications</label>
 			  <input type="text" class="form-control" id="modal_add_patient_meds">
 			</div>
+			 <div class="form-group">
+			 	<label>Phone</label>
+			 	<input type="text" class="form-control phone" placeholder="999-999-9999" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" id="modal_add_patient_phone">
+			 </div>
+
 	        
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel');">Cancel</button>
-	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value); location.href='index.html'">Add</button>
+	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value, document.getElementById('modal_add_patient_phone').value); location.href='index.html'">Add</button>
 	      </div>
 	    </div>
     </div>
@@ -189,12 +194,13 @@
 		
 
 <script src="temp.js"></script>
+<script src="custom_tracking.js"></script>
 <script type="text/javascript">
 	var rotations = {};
 
 	function rotate_chev(id){
 
-		console.log("to rotate id:" + id); 
+		// console.log("to rotate id:" + id); 
 		if(rotations[id] == null || rotations[id] == 0){
 			rotations[id] = 180;
 			$("#chev_"+id).css({'transform': 'rotate(180deg)'});
