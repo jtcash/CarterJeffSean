@@ -232,6 +232,11 @@
 		// create_patients( patients );
 		create_patients( get_ls_patients() );
 
+
+		send_event('Loaded_Index:' + Date.now() );
+
+
+
 	});
 </script>
 
