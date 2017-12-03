@@ -104,9 +104,17 @@ function send_click_list(){
 
 
 
+function initialize_events(){
+	setTimeout(function() { send_event('Loaded_Index:' + Date.now()); send_click_list(); }, 100);
+}
+
+
 function reset(){
 	reset_uid();
 	reset_click_list();
 	reset_ls_patients();
 }
+
+
+
 
