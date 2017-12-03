@@ -17,5 +17,20 @@ function get_page_version(){
 	}
 	return version;
 }
- 
+
+
+function send_event(event){
+	if("ga" in window){
+		var tracker = ga.getAll()[0];
+		//tracker.send('event', event category, event data);
+		tracker.send('event', get_uid(), event);
+	} else {
+		console.log("event tracking is not available")
+	}
+}
+
+
+
+
+
 
