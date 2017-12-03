@@ -240,6 +240,11 @@
 
 
 	});
+	window.onbeforeunload = function(e){
+	//Do some thing here
+		send_event("Unloaded_Index:" + Date.now());
+	};
+
 </script>
 
 </body>
