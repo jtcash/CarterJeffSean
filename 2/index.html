@@ -233,8 +233,10 @@
 		create_patients( get_ls_patients() );
 
 
-		send_event('Loaded_Index:' + Date.now() );
-
+		// send_event('Loaded_Index:' + Date.now() );
+		// Must delay event sending so ga can initialize
+		setTimeout(function() { send_event('Loaded_Index:' + Date.now()); }, 50);
+		// console.log(ga.getAll());
 
 
 	});
