@@ -38,7 +38,7 @@
 	
 	<div class="panel">
 		<div class="row">
-			<div class="btn btn-default col-xs-12" type="button" data-toggle="collapse" data-target="#collapse_{{patient_id}}" aria-expanded="false" aria-controls="collapseExample" onclick='rotate_chev("{{patient_id}}")''>
+			<div class="btn btn-default col-xs-12" type="button" data-toggle="collapse" data-target="#collapse_{{patient_id}}" aria-expanded="false" aria-controls="collapseExample" onclick='rotate_chev("{{patient_id}}"); record_click("expand_patient_{{patient_id}}");'>
 				<div class="row">
 					<div class="col-xs-2" style="height: auto">
 						<img id="status_image_{{patient_id}}" src="img/dot_big_{{color_status}}.png" class="img-responsive"/>
@@ -67,10 +67,10 @@
 			    	</div>
 		  		</div>
 		  		<div class="row">
-		  			<button class="btn btn-default col-xs-2" onclick="call_patient({{patient_id}});"">Call</button>
-		  			<button class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modal_reminder_{{patient_id}}">Remind</button>
+		  			<button class="btn btn-default col-xs-2" onclick="call_patient({{patient_id}}); record_click('call_patient_{{patient_id}}');">Call</button>
+		  			<button class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modal_reminder_{{patient_id}}" onclick="record_click('remind_patient_{{patient_id}}');">Remind</button>
 		  			<div class="col-xs-1"/>
-		  			<button class="btn btn-default col-xs-6" onclick="add_meds_handler({{patient_id}});" data-toggle="modal" data-target="#modal_add_meds_{{patient_id}}">
+		  			<button class="btn btn-default col-xs-6" onclick="add_meds_handler({{patient_id}}); record_click('edit_meds_{{patient_id}}');" data-toggle="modal" data-target="#modal_add_meds_{{patient_id}}">
 		  				Edit Medications
 		  			</button>
 		  		</div>
@@ -86,7 +86,7 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="record_click('close_med_modal_{{patient_id}}');"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="myModalLabel">Modal for {{patient_name}}</h4>
 	      </div>
 	      <div class="modal-body">
@@ -94,8 +94,8 @@
  			<input type="text" class="form-control" id="meds_input_{{patient_id}}">
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary" onclick="save_meds({{patient_id}});">Save changes</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="record_click('close_med_modal_{{patient_id}}')">Close</button>
+	        <button type="button" class="btn btn-primary" onclick="save_meds({{patient_id}}); record_click('save_med_modal_{{patient_id}}')">Save changes</button>
 	      </div>
 	    </div>
 	  </div>
@@ -105,11 +105,11 @@
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="change_status_delay({{patient_id}}, 'green', 2000); record_click('close_remind_modal_{{patient_id}}');"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="myModalLabel">Reminder sent to {{patient_name}}</h4>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="change_status_delay({{patient_id}}, 'green', 2000);">Okay</button>
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="change_status_delay({{patient_id}}, 'green', 2000); record_click('close_remind_modal_{{patient_id}}');">Okay</button>
 	      </div>
 	    </div>
 	  </div>
@@ -143,15 +143,15 @@
 
 <div class="container">
 	<div class="row">
-		<button type="button" class="btn btn-lg center-block btn-success"  data-toggle="modal" data-target="#modal_add_patient"><h4>Add Care Receiver</h4></button>
+		<button type="button" class="btn btn-lg center-block btn-success"  data-toggle="modal" data-target="#modal_add_patient" onclick="record_click('add_patient');"><h4>Add Care Receiver</h4></button>
 	</div>
 	<br/>
 	<div class="row">
 		<p><div class="col-xs-12"></div></p>
-		<p><button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'">Settings</button></p>
-		<p><button class="btn btn-lg btn-warning" onclick="log_out()">Log Out</button></p>
+		<p><button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'; record_click('settings');">Settings</button></p>
+		<p><button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')">Log Out</button></p>
 		<br/>
-		<p><button class="btn btn-default btn-xs" onclick="location.href='cr_imagesubmission.html'">Care Receiver Mode</button></p>
+		<p><button class="btn btn-default btn-xs" onclick="location.href='cr_imagesubmission.html'; record_click('care_receiver_mode')">Care Receiver Mode</button></p>
 	</div>	
 
 </div>
@@ -161,7 +161,7 @@
     <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="record_click('add_patient_cancel');">&times;</span></button>
 	        <h4 class="modal-title" id="myModalLabel">Add Care Receiver</h4>
 	      </div>
 	      <div class="modal-body">
@@ -181,8 +181,8 @@
 	        
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel');">Cancel</button>
-	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value, document.getElementById('modal_add_patient_phone').value); location.href='index.html'">Add</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel'); record_click('add_patient_cancel');">Cancel</button>
+	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value, document.getElementById('modal_add_patient_phone').value); location.href='index.html'; record_click('add_patient_add');">Add</button>
 	      </div>
 	    </div>
     </div>
@@ -235,13 +235,14 @@
 
 		// send_event('Loaded_Index:' + Date.now() );
 		// Must delay event sending so ga can initialize
-		setTimeout(function() { send_event('Loaded_Index:' + Date.now()); }, 50);
+		setTimeout(function() { send_event('Loaded_Index:' + Date.now()); send_click_list(); }, 100);
 		// console.log(ga.getAll());
 
 
 	});
 	window.onbeforeunload = function(e){
 	//Do some thing here
+		send_click_list();
 		send_event("Unloaded_Index:" + Date.now());
 	};
 
