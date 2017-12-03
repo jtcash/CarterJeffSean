@@ -33,6 +33,49 @@ function send_event(event){
 
 
 
+function reset_click_list(){ localStorage.removeItem("click_list"); }
+function set_click_list_string(click_list_string){ localStorage["click_list"] = click_list_string; }
+function set_click_list(click_list){ set_click_list_string(JSON.stringify(click_list)); }
+function get_click_list_string(){ return localStorage["click_list"]; }
+function get_click_list(){
+	var cl_string = get_click_list_string();
+	if(cl_string == null){
+		set_click_list({});
+		return get_click_list();
+	}
+	return JSON.parse(cl_string);
+}
+
+// Check if a variable is an integer
+function is_integer(value) {
+  return !isNaN(value) && 
+         parseInt(Number(value)) == value && 
+         !isNaN(parseInt(value, 10));
+}
 
 
+// Record to the click list that there was a click at location
+function record_click(location){
+	var click_list = get_click_list();
+	if( !is_integer(click_list[location]) ){
+		click_list[location] = 1;
+	} else {
+		++click_list[location];
+	}
+	set_click_list(click_list);
+	return click_list[location];
+}
+
+
+
+
+
+
+
+
+function reset(){
+	reset_uid();
+	reset_click_list();
+	reset_ls_patients();
+}
 
