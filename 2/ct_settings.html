@@ -67,18 +67,29 @@
 			</div>
 		</div>
 
-
-
-		
+		<br/>
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-danger" onclick="reset_ls_patients(); location.href='index.html'; record_click('clear_patient_list'); send_click_list();"><h4>Clear Patient List</h4></button>
+		</div>
+		<br/>
+		<br/>
 
 		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-primary"  onclick="location.href='index.html'; record_click('to_dashboard')"><h4>Dashboard</h4></button>
+		</div>
+		<br/>
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-warning"  onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
+		</div>
+
+		<!-- <div class="row">
 			<div class="col-xs-6">
 				<button class="btn btn-lg btn-primary" onclick="location.href='index.html'; record_click('to_dashboard')"><h4>Dashboard</h4></button>
 			</div>
 			<div class="col-xs-6 text-right" >
 				<button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
 			</div>
-		</div>
+		</div> -->
 
 
 		
@@ -88,21 +99,26 @@
 			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'; record_click('to_dashboard')">Dashboard</button></p>
 			<p><button class="btn btn-warning btn-sm" onclick="log_out(); record_click('log_out');">Log Out</button></p>
 		</div> -->
-		<div class="row">
+		<!-- <div class="row">
 			<p><div class="col-xs-12"></div></p>
 			<p><button class="btn btn-danger  btn-xs" onclick="reset_ls_patients(); location.href='index.html'; record_click('clear_patient_list'); send_click_list();">Clear Patient List</button></p>
-		</div>
-		<div class="row">
-			<p><div class="col-xs-12"></div></p>
-			<p id="uid_element">UID: </p>
-		</div>
+		</div> -->
+
+		
 		<!-- <div class="row">
 			<p><div class="col-xs-12"></div></p>
 			<p><button class="btn btn-danger btn-xs" onclick="record_click('toggle A/B version'); send_click_list();  window.location = window.location.pathname;">Switch A/B Version</button></p>
 		</div>
  -->
-		
-			
+	
+
+
+
+	<!-- <div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p id="uid_element">UID: </p>
+		</div> -->
+				
 	</div>
 	<script src="temp.js"></script>
 	<script src="custom_tracking.js"></script>
@@ -118,7 +134,7 @@
 
 		initialize_events();
 		
-		 document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
+		 // document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
 	});
 
 	window.onbeforeunload = function(e){

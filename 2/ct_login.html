@@ -34,24 +34,35 @@
 		</div>
 		<div class="row">
 			<div class="form-group">
-				<input id="login_email" class="form-control input-sm" type="text" placeholder="email">
+				<input id="login_email" class="form-control input-lg" type="text" placeholder="email">
 			</div>
 		</div>
 		<div class="row">
 			<div class="form-group">
-				<input id="login_password" class="form-control input-sm" type="password" placeholder="password">
+				<input id="login_password" class="form-control input-lg type="password" placeholder="password">
 			</div>
 		</div>
 
 		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-primary"  onclick="attempt_login(); record_click('log_in');"><h4>Log In</h4></button>
+		</div>
+		<br/>
+		<br/>
+
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" data-target="#modal_register" onclick="record_click('register');"><h4>Register</h4></button>
+		</div>
+
+		<!-- <div class="row">
 			<div class="col-xs-6">
-				<button class="btn btn-lg btn-primary" onclick="attempt_login(); record_click('log_in');""><h4>Log In</h4></button>
+				<button class="btn btn-lg btn-primary" onclick="attempt_login(); record_click('log_in');"><h4>Log In</h4></button>
 			</div>
 			<div class="col-xs-6 text-right" >
 				<button class="btn btn-lg btn-info" data-toggle="modal" data-target="#modal_register" onclick="record_click('register');"><h4>Register</h4></button>
 			</div>
-		</div>
+		</div> -->
 	</div>
+
 	<!-- -->
 	<div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="modal_register_label">
 	  <div class="modal-dialog" role="document">
