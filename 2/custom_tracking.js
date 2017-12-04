@@ -117,4 +117,10 @@ function reset(){
 
 
 
+function tracking_redirect(){
+	echo("called tracking_redirect");
+}
+
+
+
 
