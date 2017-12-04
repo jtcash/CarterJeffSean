@@ -8,7 +8,7 @@ function reset_uid(){ localStorage.removeItem("tracking_uid"); }
 function get_uid_string(){ return localStorage["tracking_uid"]; }
 function has_uid(){	return !(get_uid_string() == null); }
 function generate_uid(){ 
-	return Math.round(Math.random()) + '_' + Math.random().toString(36).substring(6) + '_AB';
+	return Math.round(Math.random()) + '_' + Math.random().toString(36).substring(6) + '_ABtest';
 }
 function get_uid(){
 	if(!has_uid()) set_uid(generate_uid());
@@ -73,7 +73,7 @@ function record_click(location){
 	} else {
 		++click_list._total;
 	}
-	
+
 	if( !is_integer(click_list[location]) ){
 		click_list[location] = 1;
 	} else {
