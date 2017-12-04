@@ -22,12 +22,54 @@
 
 <script type="text/javascript">
 	var user_list = {};
+	var list = {};
+
+
+
+
+
+	// function make_lists(){
+	// 	var arr = [];
+	// 	for(var prop in list){
+	// 		if(list.hasOwnProperty(prop)){
+	// 			if(prop.charAt[0] == '0'){
+	// 				list_a.push
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	function arr_is_valid(arr){
+		for(var i=0; i<arr.length; ++i){
+			if(arr[i][1].includes("add_patient"))
+				return i >= 1;
+
+		}
+		return false;
+
+	}
+
+	function filter_list(){
+		for(var prop in list){
+			if(list.hasOwnProperty(prop)){
+				// var arr = list[prop];
+				// var contains = false;
+
+				if(!arr_is_valid(list[prop])){
+					delete list[prop];
+				}
+				
+			}
+		}
+	}
 
 	function add_user_entry(uid, time, loc){
 		if(user_list[uid] == null){
 			user_list[uid] = [];
 		}
-		user_list[uid].push({t: Number(time), l: loc});
+		// user_list[uid].push({t: Number(time), l: loc});
+		user_list[uid].push([ Number(time), loc ]);
+
 	}
 	function add_user_entry_obj(uid, obj){
 		if( !(obj._list == null) ){
@@ -61,8 +103,8 @@
 		// if(str.charAt(0) == '"' || str.charAt(0) == '{'){
 		// 	var obj = JSON.parse(str);
 		// }
-		console.log(uid + '\t' + str);
-		console.log(obj);
+		// console.log(uid + '\t' + str);
+		// console.log(obj);
 	}
 
 	document.getElementById('file').onchange = function(){
@@ -71,6 +113,11 @@
 
  	var reader = new FileReader();
   	reader.onload = function(progressEvent){
+
+  		console.log("Processing CSV data...");
+  		
+
+
 	    // Entire file
 	    // console.log(this.result);
 
@@ -85,19 +132,28 @@
 	    	if(lines[i].length < 1) break;
 	    	parse_line(lines[i]);
 	    }
-	    // for(var line = 0; line < lines.length; line++){
-	    //   console.log(lines[line]);
-	    // }
-// homes.sort(function(a, b) {
-//     return parseFloat(a.price) - parseFloat(b.price);
-// });
+
 		for(var prop in user_list) {
 		    if(user_list.hasOwnProperty(prop)){
 		        user_list[prop].sort(function(a,b){
-					return a.t - b.t;
+					return a[0] - b[0];
 				});
 		    }
 		}
+
+		for(var prop in user_list){
+			if(user_list.hasOwnProperty(prop)){
+				if(prop.includes("ABtest")){
+					// add_to_list(user_list[prop])
+					list[prop] = user_list[prop];
+				}
+			}
+		}
+
+		filter_list();
+		console.log("done\n\n\n");
+		console.log(list);
+		// console.log("\n\n\ntype 'list' in console to view A/B test data");
 	}
 
 // 		for(i=0; i<user_list.length)
