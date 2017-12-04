@@ -143,16 +143,25 @@
 
 <div class="container">
 	<div class="row">
-		<button type="button" class="btn btn-lg center-block btn-success"  data-toggle="modal" data-target="#modal_add_patient" onclick="record_click('add_patient');"><h4>Add Care Receiver</h4></button>
+		<button type="button" class="btn btn-lg  btn-block btn-success"  data-toggle="modal" data-target="#modal_add_patient" onclick="record_click('add_patient');"><h4>Add Care Receiver</h4></button>
 	</div>
 	<br/>
 	<div class="row">
+		<div class="col-xs-6">
+			<button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'; record_click('settings');"><h4>Settings</h4></button>
+		</div>
+		<div class="col-xs-6 text-right" >
+			<button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
+		</div>
+	</div>
+
+<!-- 	<div class="row">
 		<p><div class="col-xs-12"></div></p>
 		<p><button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'; record_click('settings');">Settings</button></p>
 		<p><button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')">Log Out</button></p>
 		<br/>
 		<p><button class="btn btn-default btn-xs" onclick="location.href='cr_imagesubmission.html'; record_click('care_receiver_mode')">Care Receiver Mode</button></p>
-	</div>	
+	</div>	 -->
 
 </div>
 
