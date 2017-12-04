@@ -8,7 +8,7 @@ function reset_uid(){ localStorage.removeItem("tracking_uid"); }
 function get_uid_string(){ return localStorage["tracking_uid"]; }
 function has_uid(){	return !(get_uid_string() == null); }
 function generate_uid(){ 
-	return Math.round(Math.random()) + '_' + Math.random().toString(36).substring(6) + '_ABtest';
+	return Math.round(Math.random()) + '_' + Math.random().toString(36).substring(6) + '_ABtest2';
 }
 function get_uid(){
 	if(!has_uid()) set_uid(generate_uid());
