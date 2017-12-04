@@ -77,12 +77,12 @@
 		<div class="row">
 			<br/>
 			<p><div class="col-xs-12"></div></p>
-			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'">Dashboard</button></p>
-			<p><button class="btn btn-warning btn-sm" onclick="log_out();">Log Out</button></p>
+			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'; record_click('to_dashboard')">Dashboard</button></p>
+			<p><button class="btn btn-warning btn-sm" onclick="log_out(); record_click('log_out');">Log Out</button></p>
 		</div>
 		<div class="row">
 			<p><div class="col-xs-12"></div></p>
-			<p><button class="btn btn-danger btn-xs" onclick="reset_ls_patients(); location.href='index.html'">Clear Patient List</button></p>
+			<p><button class="btn btn-danger btn-xs" onclick="reset_ls_patients(); location.href='index.html' record_click('clear_patient_list'); send_click_list();">Clear Patient List</button></p>
 		</div>
 		<div class="row">
 			<p><div class="col-xs-12"></div></p>

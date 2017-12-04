@@ -24,7 +24,7 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<!-- 
 	<script>
 		function add_patient() {
 			// Pull patients from localStorage
@@ -56,7 +56,7 @@
 			localStorage.setItem("patients", JSON.stringify(patients_array)); 
 		}
 
-	</script>
+	</script> -->
 
 </head>
 
@@ -72,12 +72,28 @@
 			<div class="col-xs-12">
 				<h4>Add a care receiever</h4>
 				<div class="form-group">
+				  <label for="modal_input_email">Name</label>
+				  <input type="text" class="form-control required name" id="modal_add_patient_name">
+				</div>
+				<div class="form-group">
+				  <label for="modal_input_password">Medications</label>
+				  <input type="text" class="form-control" id="modal_add_patient_meds">
+				</div>
+				 <div class="form-group">
+				 	<label>Phone</label>
+				 	<input type="text" class="form-control phone" placeholder="999-999-9999" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" id="modal_add_patient_phone">
+				 </div>
+				 <!-- 
+				<div class="form-group">
 					<input class="form-control input-sm" type="text" placeholder="Name" id="name">
 				</div>
 				<div class="form-group">
 					<input class="form-control input-sm" type="text" placeholder="Medications" id="meds">
 				</div>
-				<button class="btn btn-default col-xs-2" onclick="add_patient(document.getElementById('name').value, document.getElementById('meds').value); location.href='index.html'">Add</button>
+				<div class="form-group">
+					<input class="form-control input-sm" type="text" placeholder="Medications" id="meds">
+				</div> -->
+				<button class="btn btn-default col-xs-2" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value, document.getElementById('modal_add_patient_phone').value); location.href='index.html'; record_click('add_patient_add'); send_click_list();">Add</button>
 			</div>
 		</div>
 
@@ -90,19 +106,25 @@
 		<div class="row">
 			<br/>
 			<p><div class="col-xs-12"></div></p>
-			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'">Dashboard</button></p>
-			<p><button class="btn btn-warning btn-sm" onclick="log_out();">Log Out</button></p>
+			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'; record_click('to_dashboard');">Dashboard</button></p>
+			<p><button class="btn btn-warning btn-sm" onclick="log_out(); record_click('log_out')">Log Out</button></p>
 		</div>
 		<div class="row">
 			<p><div class="col-xs-12"></div></p>
-			<p><button class="btn btn-danger btn-xs" onclick="reset_ls_patients(); location.href='index.html'">Clear Patient List</button></p>
+			<p><button class="btn btn-danger btn-xs" onclick="reset_ls_patients(); location.href='index.html' record_click('clear_patient_list'); send_click_list();">Clear Patient List</button></p>
+		</div>
+		<div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p id="uid_element">UID: </p>
 		</div>
 
 
 		
 			
 	</div>
-	<script src="temp.js"></script>
+	<script src="2/temp.js"></script>
+	<script src="2/custom_tracking.js"></script>
+
 	<script type="text/javascript">
 	$(document).ready(function(){
 
@@ -111,7 +133,7 @@
 			window.location="ct_login.html";
 			return;
 		}
-		
+		document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
 
 	});
 </script>
