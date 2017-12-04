@@ -143,7 +143,6 @@ function displayed_version(){
 }
 
 function tracking_redirect(){
-	return;
 	echo("called tracking_redirect");
 
 	echo("test:" + ("ga" in window));
