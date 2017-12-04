@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110548543-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110548543-1');
+</script>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/pepe.png" type="image/x-icon">
+	<title>Login</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="col-xs-12 text-center">
+			<h2>Pill Check</h2>
+		</div>
+		<div class="row">
+			<div class="form-group">
+				<input id="login_email" class="form-control input-lg" type="text" placeholder="email">
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group">
+				<input id="login_password" class="form-control input-lg type="password" placeholder="password">
+			</div>
+		</div>
+
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-primary"  onclick="attempt_login(); record_click('log_in');"><h4>Log In</h4></button>
+		</div>
+		<br/>
+		<br/>
+
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-info"  data-toggle="modal" data-target="#modal_register" onclick="record_click('register');"><h4>Register</h4></button>
+		</div>
+
+		<!-- <div class="row">
+			<div class="col-xs-6">
+				<button class="btn btn-lg btn-primary" onclick="attempt_login(); record_click('log_in');"><h4>Log In</h4></button>
+			</div>
+			<div class="col-xs-6 text-right" >
+				<button class="btn btn-lg btn-info" data-toggle="modal" data-target="#modal_register" onclick="record_click('register');"><h4>Register</h4></button>
+			</div>
+		</div> -->
+	</div>
+
+	<!-- -->
+	<div class="modal fade" id="modal_register" tabindex="-1" role="dialog" aria-labelledby="modal_register_label">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="record_click('register_cancel');"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Create an account</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+			  <label for="modal_input_email">email:</label>
+			  <input type="text" class="form-control" id="modal_input_email">
+			</div>
+			<div class="form-group">
+			  <label for="modal_input_password">password:</label>
+			  <input type="password" class="form-control" id="modal_input_password">
+			</div>
+	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel'); record_click('register_cancel');">Cancel</button>
+	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="create_account(); record_click('register_confirm');">Create account</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+
+
+	<script src="temp.js"></script>
+	<script src="custom_tracking.js"></script>
+	<script type="text/javascript">
+
+
+
+		
+		function create_account(){
+			console.log('clicked create account');
+
+			var email = document.getElementById("modal_input_email").value;
+			var password = document.getElementById("modal_input_password").value;
+
+			var alert_message = "";
+
+			if(email.length < 1) alert_message ='Please enter email';
+			
+			if(password.length < 1){
+				if(alert_message.length < 1){
+					alert_message = "Please enter"
+				} else {
+					alert_message += ' and';
+				}
+				alert_message += ' password';
+			}
+			if(alert_message.length > 0){
+				alert(alert_message);
+				return false;
+			}
+
+
+			console.log("email:{" + email + "}, password{" + password +"}" );
+
+
+			var success = add_user(email, password);
+
+			// Only close modal if a new user was successfully made
+			if(success){
+				$('#modal_register').modal('toggle');
+				$('#login_email').val(email);
+				$('#login_password').val(password);
+			}
+
+			
+
+			// attempt_login(email, password);
+
+			return success;
+		}
+
+		$(document).ready(function(){
+			tracking_redirect();
+			// console.log("ready function started");
+
+			// console.log(is_logged_in());
+			if(is_logged_in()){
+				window.location = 'index.html';
+			}
+			initialize_shit();
+			modify_patients_from_localstorage();
+
+		// generate patient ids
+		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
+
+		initialize_events();
+		});
+		window.onbeforeunload = function(e){
+		//Do some thing here
+			send_click_list();
+			send_event("Unloaded_ct_login:" + Date.now());
+		};
+	</script>
+
+</body>
+
+</html>

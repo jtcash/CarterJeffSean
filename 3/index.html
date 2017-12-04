@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110548543-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110548543-1');
+</script>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/pepe.png" type="image/x-icon">
+	<title>Caretaker Home</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	<!-- handlebars include here -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
+
+
+</head>
+
+
+
+<script id="patient_template" type="text/x-handlebars-template">
+	
+	<div class="panel">
+		<div class="row">
+			<div class="btn btn-default col-xs-12" type="button" data-toggle="collapse" data-target="#collapse_{{patient_id}}" aria-expanded="false" aria-controls="collapseExample" onclick='rotate_chev("{{patient_id}}"); record_click("expand_patient_{{patient_id}}");'>
+				<div class="row">
+					<div class="col-xs-2" style="height: auto">
+						<img id="status_image_{{patient_id}}" src="img/dot_big_{{color_status}}.png" class="img-responsive"/>
+					</div>
+					<!--style="width: 100%; min-width: 20px; height: auto;  display: block; text-align:center; vertical-align:middle"-->
+
+					<div class="col-xs-8">
+						<h3>{{patient_name}}</h3>
+					</div>
+					<div class="col-xs-2 float-right" style="height: auto">
+				  		<img src="img/chev.png" class="img-responsive " id="chev_{{patient_id}}"/>
+				  	</div>
+			  	</div>
+			</div>
+		</div>
+		<div class="row">
+			
+		</div>
+		
+		<!-- This bit get collapsed and is hidden by default -->
+		<div class="collapse" id="collapse_{{patient_id}}">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="well col-xs-12" id="patient_meds_{{patient_id}}">
+			    		{{patient_meds}}
+			    	</div>
+		  		</div>
+		  		<div class="row">
+		  			<button class="btn btn-default col-xs-2" onclick="call_patient({{patient_id}}); record_click('call_patient_{{patient_id}}');">Call</button>
+		  			<button class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modal_reminder_{{patient_id}}" onclick="record_click('remind_patient_{{patient_id}}');">Remind</button>
+		  			<div class="col-xs-1"/>
+		  			<button class="btn btn-default col-xs-6" onclick="add_meds_handler({{patient_id}}); record_click('edit_meds_{{patient_id}}');" data-toggle="modal" data-target="#modal_add_meds_{{patient_id}}">
+		  				Edit Medications
+		  			</button>
+		  		</div>
+			</div>
+		</div>
+	</div>
+	
+
+	
+
+	
+	<div class="modal fade" id="modal_add_meds_{{patient_id}}" tabindex="-1" role="dialog" aria-labelledby="modal_add_meds_{{patient_id}}_label">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="record_click('close_med_modal_{{patient_id}}');"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Modal for {{patient_name}}</h4>
+	      </div>
+	      <div class="modal-body">
+	        <label for="meds_input_{{patient_id}}">Medications:</label>
+ 			<input type="text" class="form-control input-lg" id="meds_input_{{patient_id}}">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="record_click('close_med_modal_{{patient_id}}')">Close</button>
+	        <button type="button" class="btn btn-primary" onclick="save_meds({{patient_id}}); record_click('save_med_modal_{{patient_id}}')">Save changes</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="modal fade" id="modal_reminder_{{patient_id}}" tabindex="-1" role="dialog" aria-labelledby="modal_reminder_{{patient_id}}_label">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="change_status_delay({{patient_id}}, 'green', 2000); record_click('close_remind_modal_{{patient_id}}');"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Reminder sent to {{patient_name}}</h4>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="change_status_delay({{patient_id}}, 'green', 2000); record_click('close_remind_modal_{{patient_id}}');">Okay</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+
+</script>
+
+
+
+<body>
+<div class="container">
+	<div class="col-xs-12 text-center">
+		<h2>Dashboard</h2>
+	</div>
+
+</div>
+
+
+
+
+<div class="container">
+	<div id="templated_patients">
+
+	</div>
+</div>
+
+
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<button type="button" class="btn btn-lg btn-block btn-success"  data-toggle="modal" data-target="#modal_add_patient" onclick="record_click('add_patient');"><h4>Add Care Receiver</h4></button>
+	</div>
+	<br/>
+	<div class="row">
+		<button type="button" class="btn btn-lg btn-block btn-info"  onclick="location.href='ct_settings.html'; record_click('settings');"><h4>Settings</h4></button>
+	</div>
+
+	<!-- <div class="row">
+		<div class="col-xs-6">
+			<button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'; record_click('settings');"><h4>Settings</h4></button>
+		</div>
+		<div class="col-xs-6 text-right" >
+			<button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
+		</div>
+	</div> -->
+
+<!-- 	<div class="row">
+		<p><div class="col-xs-12"></div></p>
+		<p><button class="btn btn-lg btn-info" onclick="location.href='ct_settings.html'; record_click('settings');">Settings</button></p>
+		<p><button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')">Log Out</button></p>
+		<br/>
+		<p><button class="btn btn-default btn-xs" onclick="location.href='cr_imagesubmission.html'; record_click('care_receiver_mode')">Care Receiver Mode</button></p>
+	</div>	 -->
+
+</div>
+
+<!-- Modal for adding a patient -->
+<div class="modal fade" id="modal_add_patient" tabindex="-1" role="dialog" aria-labelledby="modal_add_patient_label">
+    <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" onclick="record_click('add_patient_cancel');">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Add Care Receiver</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+			  <label for="modal_input_email">Name</label>
+			  <input type="text" class="form-control input-lg required name" id="modal_add_patient_name">
+			</div>
+			<div class="form-group">
+			  <label for="modal_input_password">Medications</label>
+			  <input type="text" class="form-control input-lg" id="modal_add_patient_meds">
+			</div>
+			 <div class="form-group">
+			 	<label>Phone</label>
+			 	<input type="text" class="form-control input-lg phone" placeholder="999-999-9999" data-placement="top" data-trigger="manual" data-content="Must be a valid phone number (999-999-9999)" id="modal_add_patient_phone">
+			 </div>
+
+	        
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="console.log('clicked cancel'); record_click('add_patient_cancel');">Cancel</button>
+	        <button type="button" class="btn btn-primary" style="cursor: pointer;" onclick="add_patient(document.getElementById('modal_add_patient_name').value, document.getElementById('modal_add_patient_meds').value, document.getElementById('modal_add_patient_phone').value); location.href='index.html'; record_click('add_patient_add'); send_click_list();">Add</button>
+	      </div>
+	    </div>
+    </div>
+</div>
+
+
+
+
+		
+
+<script src="temp.js"></script>
+<script src="custom_tracking.js"></script>
+<script type="text/javascript">
+	var rotations = {};
+
+	function rotate_chev(id){
+
+		// console.log("to rotate id:" + id); 
+		if(rotations[id] == null || rotations[id] == 0){
+			rotations[id] = 180;
+			$("#chev_"+id).css({'transform': 'rotate(180deg)'});
+		} else {
+			rotations[id] = 0;
+			$("#chev_"+id).css({'transform': 'rotate(0deg)'});
+		}
+
+	}
+
+	$(document).ready(function(){
+		tracking_redirect();
+
+		// Redirect to login page if not logged in
+		if(!is_logged_in()){
+			window.location="ct_login.html";
+			return;
+		}
+		initialize_shit();
+
+		//Relies on temp.js being available
+
+		modify_patients_from_localstorage();
+
+		// generate patient ids
+
+		var patients = get_ls_patients();
+		for(var i=0; i<patients.length; ++i) patients[i]['patient_id'] = i; 
+
+		// create_patients( patients );
+		create_patients( get_ls_patients() );
+
+
+		// send_event('Loaded_Index:' + Date.now() );
+		// Must delay event sending so ga can initialize
+		
+		initialize_events();
+
+		
+		// console.log(ga.getAll());
+
+
+	});
+	window.onbeforeunload = function(e){
+	//Do some thing here
+		send_click_list();
+		send_event("Unloaded_Index:" + Date.now());
+	};
+
+</script>
+
+</body>
+
+</html>

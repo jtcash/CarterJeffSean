@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-110548543-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110548543-1');
+</script>
+	<meta charset='utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="img/pepe.png" type="image/x-icon">
+	<title>Settings</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script>
+		function add_patient() {
+			// Pull patients from localStorage
+			var patients_string = localStorage["patients"];
+			var patients_array = [];
+			if(patients_string != null){
+				patients_array = JSON.parse(patients_string);
+				if(patients_array == null) patients_array = [];
+			}
+
+			var name = document.getElementById('name').value;
+			var meds = document.getElementById('meds').value;
+
+			var exists = false;
+			for(var i=0; i<patients_array.length; ++i){
+				if(name == patients_array[i]['patient_name']){
+					patients_array[i]['meds'] = meds;
+					exists = true;
+				}
+			}
+			if(!exists){
+				var new_patient = {'patient_name' : name, 'patient_meds' : meds, 'color_status': 'green'};
+				patients_array.push(new_patient);
+			}
+
+			
+
+
+			localStorage.setItem("patients", JSON.stringify(patients_array)); 
+		}
+
+	</script>
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<h2>Settings</h2>
+			</div>
+		</div>
+
+		<br/>
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-danger" onclick="reset_ls_patients(); location.href='index.html'; record_click('clear_patient_list'); send_click_list();"><h4>Clear Patient List</h4></button>
+		</div>
+		<br/>
+		<br/>
+
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-primary"  onclick="location.href='index.html'; record_click('to_dashboard')"><h4>Dashboard</h4></button>
+		</div>
+		<br/>
+		<div class="row">
+			<button type="button" class="btn btn-lg btn-block btn-warning"  onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
+		</div>
+
+		<!-- <div class="row">
+			<div class="col-xs-6">
+				<button class="btn btn-lg btn-primary" onclick="location.href='index.html'; record_click('to_dashboard')"><h4>Dashboard</h4></button>
+			</div>
+			<div class="col-xs-6 text-right" >
+				<button class="btn btn-lg btn-warning" onclick="log_out(); record_click('log_out')"><h4>Log Out</h4></button>
+			</div>
+		</div> -->
+
+
+		
+		<!-- <div class="row">
+			<br/>
+			<p><div class="col-xs-12"></div></p>
+			<p><button type="button" class="btn btn-primary" onclick="location.href='index.html'; record_click('to_dashboard')">Dashboard</button></p>
+			<p><button class="btn btn-warning btn-sm" onclick="log_out(); record_click('log_out');">Log Out</button></p>
+		</div> -->
+		<!-- <div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p><button class="btn btn-danger  btn-xs" onclick="reset_ls_patients(); location.href='index.html'; record_click('clear_patient_list'); send_click_list();">Clear Patient List</button></p>
+		</div> -->
+
+		
+		<!-- <div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p><button class="btn btn-danger btn-xs" onclick="record_click('toggle A/B version'); send_click_list();  window.location = window.location.pathname;">Switch A/B Version</button></p>
+		</div>
+ -->
+	
+
+
+
+	<!-- <div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p id="uid_element">UID: </p>
+		</div> -->
+				
+	</div>
+	<script src="temp.js"></script>
+	<script src="custom_tracking.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		tracking_redirect();
+
+		// Redirect to login page if not logged in
+		if(!is_logged_in()){
+			window.location="ct_login.html";
+			return;
+		}
+
+		initialize_events();
+		
+		 // document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
+	});
+
+	window.onbeforeunload = function(e){
+	//Do some thing here
+		send_click_list();
+		send_event("Unloaded_ct_settings:" + Date.now());
+	};
+</script>
+</body>
+</html>
