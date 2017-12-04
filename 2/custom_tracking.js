@@ -117,8 +117,50 @@ function reset(){
 
 
 
+
+
+// function alert_analytics(){
+
+// }
+// function ensure_analytics(){
+// 	if(!("ga" in window)){
+// 		alert("")
+// 	}
+// }
+
+function displayed_version(){
+	switch(window.location.pathname.replace(/.*\/CarterJeffSean\//, '').charAt(0)){
+		default:
+		case "c":
+			return 0; 
+		case "2":
+			return 1;
+	}
+}
+
 function tracking_redirect(){
 	echo("called tracking_redirect");
+
+	echo("test:" + ("ga" in window));
+
+
+	var desired = get_page_version();
+	var displayed = displayed_version();
+
+	if(desired != displayed){
+		if(desired == 0){
+			window.location = window.location.pathname.replace(/\/2/,'');
+		} else {
+			window.location = window.location.pathname.replace(/CarterJeffSean\//, 'CarterJeffSean/2/');
+		}
+
+	} 
+
+	// var current_path = window.location.pathname;
+	
+
+	// setTimeout(function() { send_event('Loaded_Index:' + Date.now()); send_click_list(); }, 100);
+
 }
 
 
