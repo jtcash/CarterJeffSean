@@ -135,7 +135,15 @@
 		}
 		document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
 
+		initialize_events();
+
+
 	});
+	window.onbeforeunload = function(e){
+	//Do some thing here
+		send_click_list();
+		send_event("Unloaded_ct_settings:" + Date.now());
+	};
 </script>
 </body>
 </html>
