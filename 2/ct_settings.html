@@ -84,12 +84,16 @@
 			<p><div class="col-xs-12"></div></p>
 			<p><button class="btn btn-danger btn-xs" onclick="reset_ls_patients(); location.href='index.html'">Clear Patient List</button></p>
 		</div>
-
+		<div class="row">
+			<p><div class="col-xs-12"></div></p>
+			<p id="uid_element">UID: </p>
+		</div>
 
 		
 			
 	</div>
 	<script src="temp.js"></script>
+	<script src="custom_tracking.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function(){
 
@@ -98,9 +102,17 @@
 			window.location="ct_login.html";
 			return;
 		}
-		
 
+		initialize_events();
+		
+		 document.getElementById('uid_element').innerHTML = "UID: " + get_uid();
 	});
+
+	window.onbeforeunload = function(e){
+	//Do some thing here
+		send_click_list();
+		send_event("Unloaded_ct_login:" + Date.now());
+	};
 </script>
 </body>
 </html>
