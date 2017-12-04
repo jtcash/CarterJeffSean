@@ -68,16 +68,18 @@ function record_click(location){
 	echo("recording click:{" + location + "}");
 
 	var click_list = get_click_list();
-	if( !is_integer(click_list[location]) ){
-		click_list[location] = 1;
-	} else {
-		++click_list[location];
-	}
 	if(!is_integer(click_list._total)){
 		click_list._total = 1;
 	} else {
 		++click_list._total;
 	}
+	
+	if( !is_integer(click_list[location]) ){
+		click_list[location] = 1;
+	} else {
+		++click_list[location];
+	}
+	
 
 	if(click_list._list == null || !(click_list._list.constructor === Array) ){
 		click_list._list = [];
