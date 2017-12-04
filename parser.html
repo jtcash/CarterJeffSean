@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-110548543-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-110548543-1');
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+
+
+</head>
+<body>
+<input type="file" name="file" id="file">
+
+
+
+<script type="text/javascript">
+	var user_list = {};
+
+	function add_user_entry(uid, time, loc){
+		if(user_list[uid] == null){
+			user_list[uid] = [];
+		}
+		user_list[uid].push({t: Number(time), l: loc});
+	}
+	function add_user_entry_obj(uid, obj){
+		if( !(obj._list == null) ){
+			// console.log(obj._list);
+			for(var i=0; i<obj._list.length; ++i){
+				add_user_entry(uid, obj._list[i].t,  obj._list[i].l);
+			}
+		}
+	}
+
+	function parse_line(line){
+		line = line.replace(/,[0-9]+,[0-9]+,[0-9]+,[0-9]+\.?[0-9]*$/, "")
+		var uid = line.replace(/,.*$/,"");
+		var str = line.replace(/^[^,]*,/, "");
+
+
+		str = str.replace(/""/g,'"').replace(/^"/,"").replace(/"$/,"");
+
+		var obj = {};
+		try{
+			obj = JSON.parse(str);
+			add_user_entry_obj(uid, obj);
+		} catch(err){
+			var arr = str.split(":");
+			if(arr.length == 2){
+				add_user_entry(uid, arr[1], arr[0]);
+			} else {
+
+			}
+		}
+		// if(str.charAt(0) == '"' || str.charAt(0) == '{'){
+		// 	var obj = JSON.parse(str);
+		// }
+		console.log(uid + '\t' + str);
+		console.log(obj);
+	}
+
+	document.getElementById('file').onchange = function(){
+
+  	var file = this.files[0];
+
+ 	var reader = new FileReader();
+  	reader.onload = function(progressEvent){
+	    // Entire file
+	    // console.log(this.result);
+
+	    // By lines
+	    var lines = this.result.split('\n');
+
+	    var i = 0;
+	    for(; i<lines.length; ++i){
+	    	if(lines[i].length < 1) break;
+	    }
+	    for(i+=2; i<lines.length; ++i){
+	    	if(lines[i].length < 1) break;
+	    	parse_line(lines[i]);
+	    }
+	    // for(var line = 0; line < lines.length; line++){
+	    //   console.log(lines[line]);
+	    // }
+// homes.sort(function(a, b) {
+//     return parseFloat(a.price) - parseFloat(b.price);
+// });
+		for(var prop in user_list) {
+		    if(user_list.hasOwnProperty(prop)){
+		        user_list[prop].sort(function(a,b){
+					return a.t - b.t;
+				});
+		    }
+		}
+	}
+
+// 		for(i=0; i<user_list.length)
+// user_list.sort(function(a,b){
+// 	return a.t - b.t;
+// });
+  // };
+  reader.readAsText(file);
+};
+
+</script>
+	<!-- <script src="temp.js"></script>
+	<script src="2/custom_tracking.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		setTimeout(function() {
+		send_click_list();
+		reset();
+		log_out();
+		window.location = "index.html";
+		}, 100);
+	});
+	</script> -->
+
+</body>
